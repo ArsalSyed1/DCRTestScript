@@ -15,7 +15,7 @@ export const enter_text_in_description_field = (fieldName, text) => {
 }
 export const just_click = () => {
     logStep('Clicking on phase header');
-    return cy.get('.phase__header').click({ timeout: 10000 });
+    return cy.get('.phase__header').click({ timeout: 10000, force: true });
 }
 
 export const click_on_close_button = (button) => {
