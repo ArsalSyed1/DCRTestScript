@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: 
       - '**'
+  schedule:
+  - cron: '0 19 * * *'  # 12:00 AM PKT
+  - cron: '0 22 * * *'  # 3:00 AM PKT
+  - cron: '0 0 * * *'   # 5:00 AM PKT
 
 jobs:
   cypress-run:
