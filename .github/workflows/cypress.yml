@@ -24,7 +24,15 @@ jobs:
         run: npm ci
 
       - name: Run Cypress tests
-        run: npx cypress run --e2e --browser chrome --env ENV=test
+        run: npx cypress run --e2e --browser chrome --env ENV=demo
+
+      # ✅ Upload screenshots (ONLY if tests fail)
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
 
       - name: Upload debug logs
         if: always()
