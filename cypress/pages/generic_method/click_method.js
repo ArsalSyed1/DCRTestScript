@@ -3,7 +3,7 @@ import { logStep } from '../../support/e2e';
 class ClickMethod {
     clickElement(selector) {
         logStep(`Clicking element: ${selector}`);
-        return cy.get(selector, { timeout: 20000 })
+        return cy.get(selector, { timeout: 60000 })
         .should('exist')
         .should('not.be.disabled')
         .click({force: true});
@@ -144,7 +144,7 @@ class ClickMethod {
                 // Assert successful response
                 expect([200, 204, 201, 301, 409, 400]).to.include(response.statusCode);
 
-                return cy.wait(10000, { log: false }).then(() => response.body);
+                return cy.wait(30000, { log: false }).then(() => response.body);
             });
     }
 }

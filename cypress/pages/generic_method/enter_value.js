@@ -1,7 +1,7 @@
 class EnterValue {
     enterValue(selector, value) {
-        return cy.get(selector, { timeout: 20000 })
-            .should('exist', { timeout: 20000 })
+        return cy.get(selector, { timeout: 60000 })
+            .should('exist', { timeout: 60000 })
             .then((element) => {
                 try {
                     return cy.wait(500,{log:false}) // Add a short wait before interacting

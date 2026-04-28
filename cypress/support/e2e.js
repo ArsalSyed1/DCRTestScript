@@ -17,6 +17,33 @@ console.log("Loaded e2e.js")
 import './commands'
 import '@shelex/cypress-allure-plugin';
 import 'cypress-file-upload';
+// Note: fs operations moved to cypress.config.js setupNodeEvents for Node.js context
+
+// Log network failures
+Cypress.on('fail', (error) => {
+  const logMessage = `Failure: ${error.message}`;
+  console.log(logMessage);
+  throw error;
+});
+
+beforeEach(() => {
+  cy.window().then((win) => {
+    // Disable the app's logger in Cypress to prevent interference
+    if (win.logger) {
+      win.logger.error = () => {};
+      win.logger.failed = () => {};
+      win.logger.capture = () => {};
+    }
+    // Also disable window.onerror to prevent alerts
+    win.onerror = () => false;
+  });
+
+  // Temporary debug: Compare API speed
+  cy.intercept('/api/**', (req) => {
+    const logMessage = `API called: ${req.url}`;
+    console.log(logMessage);
+  });
+});
 
 afterEach(function () {
   if (this.currentTest.state === 'skipped') {

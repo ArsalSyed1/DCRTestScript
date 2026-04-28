@@ -14,7 +14,7 @@ on:
 
 jobs:
   cypress-run:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest #self-hosted
 
     steps:
       - name: Checkout code
@@ -24,6 +24,11 @@ jobs:
         run: npm ci
 
       - name: Run Cypress tests
-        run: npx cypress run --e2e --browser chrome --env ENV=demo
+        run: npx cypress run --e2e --browser chrome --env ENV=test
 
-        # Running on self-hosted machine
+      - name: Upload debug logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-debug-logs
+          path: cypress/logs/debug.log
