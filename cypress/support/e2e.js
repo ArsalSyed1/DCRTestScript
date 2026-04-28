@@ -21,10 +21,9 @@ import 'cypress-file-upload';
 
 // Log network failures
 Cypress.on('fail', (error) => {
-  const logMessage = `Failure: ${error.message}`;
-  cy.log(logMessage);
-  throw error;
-});
+  console.error('Failure:', error.message)
+  throw error
+})
 
 beforeEach(() => {
   cy.window().then((win) => {
@@ -40,9 +39,21 @@ beforeEach(() => {
 
   // Temporary debug: Compare API speed
   cy.intercept('/api/**', (req) => {
-    const logMessage = `API called: ${req.url}`;
-    cy.log(logMessage);
-  });
+  req.on('response', (res) => {
+    logStep(`API: ${req.method} ${req.url} → ${res.statusCode}`)
+  })
+
+});
+
+cy.intercept('/api/**', (req) => {
+  const start = Date.now()
+
+  req.on('response', (res) => {
+    const duration = Date.now() - start
+    logStep(`API: ${req.method} ${req.url} → ${res.statusCode} (${duration}ms)`)
+  })
+})
+
 });
 
 afterEach(function () {
