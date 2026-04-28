@@ -22,7 +22,7 @@ import 'cypress-file-upload';
 // Log network failures
 Cypress.on('fail', (error) => {
   const logMessage = `Failure: ${error.message}`;
-  console.log(logMessage);
+  cy.log(logMessage);
   throw error;
 });
 
@@ -41,7 +41,7 @@ beforeEach(() => {
   // Temporary debug: Compare API speed
   cy.intercept('/api/**', (req) => {
     const logMessage = `API called: ${req.url}`;
-    console.log(logMessage);
+    cy.log(logMessage);
   });
 });
 
